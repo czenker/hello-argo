@@ -1,0 +1,19 @@
+{{- if .Values.emissary.enabled -}}
+{{- $fullName := include "kuard.fullname" . -}}
+apiVersion: getambassador.io/v2
+kind: Mapping
+metadata:
+  name: {{ $fullName }}
+  labels:
+    {{- include "kuard.labels" . | nindent 4 }}
+  {{- with .Values.emissary.annotations }}
+  annotations:
+    {{- toYaml . | nindent 4 }}
+  {{- end }}
+spec:
+  prefix: {{ .Values.emissary.prefix }}
+  service: {{ $fullName }}
+  {{- if .Values.emissary.hostname }}
+  host: {{ .Values.emissary.hostname }}
+  {{- end }}
+{{ end }}

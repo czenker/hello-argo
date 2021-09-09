@@ -1,0 +1,13 @@
+{{- if .Values.emissary.enabled -}}
+{{- $fullName := include "kuard.fullname" . -}}
+apiVersion: getambassador.io/v2
+kind: Host
+metadata:
+  name: {{ $fullName }}
+spec:
+  hostname: {{ .Values.emissary.hostname }}
+  {{- if .Values.emissary.acmeProviderEmail }}
+  acmeProvider:
+    email: {{ .Values.emissary.acmeProviderEmail }}
+  {{- end }}
+{{ end }}
